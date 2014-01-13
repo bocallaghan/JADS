@@ -1,11 +1,13 @@
-console.log('==========================================');
-console.log(' Welcome to JADS (Just another dev server)');
-console.log(' Build Date: 13/01/13 - build number: 1   ');
-console.log(' Author: Brenton O\'Callaghan');
-console.log(' callaghan001@gmail.com')
-console.log('==========================================');
+console.log('==============================================================');
+console.log(' Welcome to JADS (Just another development (web) server)      ');
+console.log(' Build Date: 13/01/13 - build number: 1                       ');
+console.log(' Author: Brenton O\'Callaghan (callaghan001@gmail.com)        ');
+console.log('==============================================================');
 
 var gc = require('./config.js'); 			// Global Variables.
+
+if(gc.debug_mode_enabled > 0)
+	console.log('Debug mode is enabled at level ' + gc.debug_mode_enabled + ' - to disable please see config.js');
 
 var http = require('http'); 				// The standard HTTP node library.
 var fs = require('fs');						// The standard file system library.
@@ -16,11 +18,14 @@ var about = require(gc.about_object);		// Import the ABOUT handler for info abou
 // Standard handler for any request to the server.
 var server = http.createServer(function(req, res) {
 	
-	// Setup the request object.
+	if (gc.debug_mode_enabled > 0)
+		console.log('Request received');
+
+	// Setup the request object up.
 	request.setRequest(req);
 
 	// If the request is for about then we only return the about page.
-	if(request.path == about.aboutURL1 || request.path == about.aboutURL2){
+	if(request.isAboutServerRequest()){
 
 		// Note the request response code.
 		res.writeHead(200);
@@ -31,11 +36,17 @@ var server = http.createServer(function(req, res) {
 	// Otherwise we return the reequested page.
 	}else{
 
-		// TODO - do something useful here....
-    	res.writeHead(200);
-    	res.end('<html><head></head><body><h1>Welcome to JADS</h1><h2>' + request.userAgent + '</h2><h2>' + request.host + '</h2></body></html>');
+		// First, prepare the request for responding.
+		request.generateResponse();
+
+		// Now we simply reply with the response.
+    	res.writeHead(request.responseCode);
+    	res.end(request.responseString);
 	}
 });
+
+if (gc.debug_mode_enabled > 0)
+	console.log('Starting server listening on port ' + gc.server_port);
 
 // Startup the server and listen on the specified port (usually 8080).
 server.listen(gc.server_port);

@@ -1,4 +1,4 @@
-debug_mode_enabled = false;			// false = no logging, true = full logging through console.
+exports.debug_mode_enabled = 1;			// 0 = no logging, 1 = high level logging, 2 = full logging
 
 // ===================================
 // JADS Objects
