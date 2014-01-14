@@ -1,7 +1,9 @@
 
 var gc = require('../config.js'); 			// Global Variables.
 
-var response = require('./jads_response.js')
+var response = require('./jads_response.js');
+
+var proxy = require('./jads_proxy.js');
 
 // Request variables
 var browserRequest = null;
@@ -12,6 +14,8 @@ exports.url = null;
 exports.path = null;
 exports.verb = null;
 exports.fileType = null;
+
+exports.isProxyRequest = false;
 
 // Setup for this request object.
 // Takes a request standard object and extracts relevant information.
@@ -34,13 +38,21 @@ exports.setRequest = function(req){
 	this.verb = this.browserRequest.method; // Get/Put/Post/Update
 	this.fileType = gc.coreFunctions.getReqestExtension(this.path);
 	this.requestedMimeType = gc.supportedMimeTypes[this.fileType];
+
+	if (gc.coreFunctions.isProxyURL(this.path)) {
+		this.isProxyRequest = true;
+	}
 }
 
 // Pass on the command to the response object.
 exports.sendResponse = function(httpResponse){
 
+	if (this.isProxyRequest) {
+		proxy.processProxyRequest(this, httpResponse);
+	}
 	// setup the response object (we will get a returned object if it is successful)
-	if(this.response = response.prepareResponseForRequest(this, httpResponse))
+	else if(this.response = response.prepareResponseForRequest(this, httpResponse)){
 		// send the response to the request
 		this.response.sendResponse(httpResponse);
+	}
 }

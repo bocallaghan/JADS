@@ -75,6 +75,14 @@ exports.isAliasURL = function(requestURL){
 	}
 }
 
+exports.isProxyURL = function(requestURL){
+
+	var splitPath = this.getRequestFolders(requestURL);
+	if(splitPath[1].toLowerCase() == 'proxy')
+		return true;
+	return false;
+}
+
 exports.aliasName = function(requestURL){
 
 	var aliasLocation = undefined;

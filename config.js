@@ -13,6 +13,12 @@ exports.server_alias_locations = {'sapui5':'C:\\Users\\bocallaghan\\Sapui5', 'ab
 exports.documents_location = 'C:\\Users\\bocallaghan\\Webserver\\Documents';
 exports.document_default_file = 'index.html';
 
+// SAP Odata Proxy configuration
+exports.proxy_sap_host = 'hostnameHere';
+exports.proxy_sap_post = 8005;
+exports.proxy_sap_username = 'POC_USER';
+exports.proxy_sap_password = 'Password2';
+
 // Location of the JADS documentation
 exports.docs_location = './docs/about.html';
 
