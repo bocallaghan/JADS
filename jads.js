@@ -1,9 +1,3 @@
-console.log('==============================================================');
-console.log(' Welcome to JADS (Just another development (web) server)      ');
-console.log(' Build Date: 13/01/13 - build number: 1                       ');
-console.log(' Author: Brenton O\'Callaghan (callaghan001@gmail.com)        ');
-console.log('==============================================================');
-
 var gc = require('./config.js'); 			// Global Variables.
 
 gc.coreFunctions.log('Debug mode is enabled at level ' + gc.debug_mode_enabled + ' - to disable please see config.js', gc.debug_level_info);
@@ -13,8 +7,8 @@ gc.coreFunctions.startupChecks();
 
 var http = require('http'); 				// The standard HTTP node library.
 
-var request = require(gc.request_object);	// JADS object representing a request object.
-var about = require(gc.about_object);		// Import the ABOUT handler for info about JADS.
+var jadsRequest = require(gc.request_object);	// JADS object representing a request object.
+var jadsAbout = require(gc.about_object);		// Import the ABOUT handler for info about JADS.
 
 // Standard handler for any request to the server.
 var server = http.createServer(function(req, res) {
@@ -22,35 +16,29 @@ var server = http.createServer(function(req, res) {
 	gc.coreFunctions.log('Request received', gc.debug_level_info);
 
 	// Setup the request object up.
-	request.setRequest(req);
+	jadsRequest.setRequest(req);
 
 	// If the request is for about then we only return the about page.
-	if(request.isAboutServerRequest()){
+	if(jadsRequest.isAboutServerRequest()){
 
-		// Note the request response code.
-		res.writeHead(200);
-
-
-		// Finally set the ABOUT content describing the server.
-		res.end(about.aboutContent());
-
-		// Set the mime type
-		res.setHeader("Content-Type", "text/html");
+		res.writeHead(200); // Note the request response code.
+		res.end(jadsAbout.aboutContent());	// Finally set the ABOUT content describing the server.
+		res.setHeader("Content-Type", "text/html"); // Set the mime type
 
 	// Otherwise we return the reequested page.
 	}else{
 
 		// First, prepare the request for responding.
-		request.generateResponse();
+		jadsRequest.generateResponse();
 
-		if (request.dataPayload) {
+		if (jadsRequest.dataPayload) {
 			gc.coreFunctions.log('Payload Response Required', gc.debug_level_info);
-			request.streamResponse(res);
+			jadsRequest.streamResponse(res);
 		}else{
 			// Now we simply reply with the response.
-			res.setHeader("Content-Type", request.responseContentType);
-    		res.writeHead(request.responseCode);
-    		res.end(request.responseString);
+			res.setHeader("Content-Type", jadsRequest.responseContentType);
+    		res.writeHead(jadsRequest.responseCode);
+    		res.end(jadsRequest.responseString);
 		}
 	}	
 });

@@ -4,6 +4,11 @@ var fs = require('fs');						// The standard file system library.
 var path = require('path');
 
 exports.startupChecks = function(){
+	console.log('==============================================================');
+	console.log(' Welcome to JADS (Just another development (web) server)      ');
+	console.log(' Build Date: 14/01/13 - build number: 1                       ');
+	console.log(' Author: Brenton O\'Callaghan (callaghan001@gmail.com)        ');
+	console.log('==============================================================');
 
 	// First we check to make sure that the document root is a valid folder.
 	if(!this.pathExists(gc.documents_location)){

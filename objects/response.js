@@ -43,6 +43,7 @@ exports.prepareResponseForRequest = function(req){
 			}else{
 				gc.coreFunctions.log('File '+this.filePath+' is a standard request', gc.debug_level_info);
 				this.request.responseCode = 200; // OK
+				this.request.dataPayload = false;
 				this.request.responseString = gc.coreFunctions.readFile(this.filePath)
 				this.request.responseContentType = gc.supportedMimeTypes[gc.coreFunctions.getReqestExtension(this.filePath)];
 			}
@@ -50,6 +51,7 @@ exports.prepareResponseForRequest = function(req){
 
 			gc.coreFunctions.log('File '+this.filePath+' unsupported', gc.debug_level_info);
 			this.request.responseCode = 500; // Not found
+			this.request.dataPayload = false;
 			this.request.responseString = 'Unsupported file type '+gc.coreFunctions.getReqestExtension(this.filePath);
 			this.request.responseContentType = gc.supportedMimeTypes['.html'];
 		}
@@ -57,6 +59,7 @@ exports.prepareResponseForRequest = function(req){
 	}else{
 		gc.coreFunctions.log('File '+this.filePath+' not found', gc.debug_level_info);
 		this.request.responseCode = 404; // Not found
+		this.request.dataPayload = false;
 		this.request.responseString = 'File not found';
 		this.request.responseContentType = gc.supportedMimeTypes['.html'];
 	}
