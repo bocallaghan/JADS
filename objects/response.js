@@ -66,19 +66,25 @@ exports.prepareResponseForRequest = function(req){
 // Stream a response back to the client (e.g. an image).
 exports.streamResponse = function(res){
 
+	// Store the mime type & file path. so it can be used in the callbacks
 	var mimeType = this.request.requestedMimeType;
 	var filePath = this.filePath;
 
+	// Get the stats on the file so we can determine the size.
 	fs.stat(this.filePath, function(error, stat) {
 
     	var rs;
+
+    	// Write the header of the response.
     	res.writeHead(200, {
       		'Content-Type' : mimeType,
       		'Content-Length' : stat.size
     	});
 
+    	// Create a read stream from the file (more efficient than other methods).
 	    rs = fs.createReadStream(filePath);
-	    // pump the file to the response
+
+	    // pump the file contents into the response
 	    util.pump(rs, res, function(err) {
 	      if(err) {
 	        gc.coreFunctions.log('Error ocurred during response streaming: '+err, gc.debug_level_info);
