@@ -31,7 +31,18 @@ exports.server_ip = '127.0.0.1';	// The IP address the server should listen on.
 // ===================================
 // Supported file extensions
 // ===================================
-exports.supportedMimeTypes = {'.html':'text/html', '.js':'application/javascript'}
+exports.supportedMimeTypes = {'.html':'text/html', 
+							  '.js':'application/javascript', 
+							  '.css':'text/css',
+							  '.png':'image/png',
+							  '.gif':'image/gif',
+							  '.jpg':'image/jpg',
+							  '.jpeg':'image/jpeg'}
+
+exports.streamingFileTypes = {'.png':'image/png',
+							  '.gif':'image/gif',
+							  '.jpg':'image/jpg',
+							  '.jpeg':'image/jpeg'}
 
 // Access to core functions such as logging.
 exports.coreFunctions = require('./objects/globalFunctions.js');		// Core Functions such as logging.

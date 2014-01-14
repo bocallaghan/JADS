@@ -10,11 +10,14 @@ exports.host = null;
 exports.url = null;
 exports.path = null;
 exports.verb = null;
+exports.fileType = null;
+exports.requestedMimeType = null;
+exports.dataPayload = false; // indicates if there is a data payload like an image.
 
 // Response Variables
 exports.responseString = null;
 exports.responseCode = 500;
-exports.responseMime = null;
+exports.responseContentType = null;
 
 // Setup for this request object.
 // Takes a request standard object and extracts relevant information.
@@ -35,6 +38,8 @@ exports.setRequest = function(req){
 	this.url = require('url').parse(browserRequest.url, true);
 	this.path = this.url.path;
 	this.verb = browserRequest.method; // Get/Put/Post/Update
+	this.fileType = gc.coreFunctions.getReqestExtension(this.path);
+	this.requestedMimeType = gc.supportedMimeTypes[this.fileType];
 }
 
 // Checks if the request is for the standard ABOUT page for the server runtime.
@@ -46,5 +51,11 @@ exports.isAboutServerRequest = function(){
 exports.generateResponse = function(){
 
 	// setup the response object
-	response.prepareResponseForRequest(this);
+	this.response = response.prepareResponseForRequest(this);
+}
+
+// Pass on the stream command to the response object.
+exports.streamResponse = function(res){
+	// setup the response object
+	this.response.streamResponse(res);
 }

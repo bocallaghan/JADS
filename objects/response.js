@@ -1,5 +1,7 @@
 
 var gc = require('../config.js'); 			// Global Variables.
+var fs = require('fs');						// The standard file system library.
+var util = require('util');						// The standard file system library.
 
 var request = null;
 var validURL = false;
@@ -34,11 +36,18 @@ exports.prepareResponseForRequest = function(req){
 
 		// Now we only continue if the file is of a supported type.
 		if (gc.coreFunctions.isSupportedFileType(gc.coreFunctions.getReqestExtension(this.filePath))) {
-			this.request.responseCode = 200; // OK
-			this.request.responseString = 'OK';
-			this.request.responseString = gc.coreFunctions.readFile(this.filePath)
-			this.request.responseContentType = gc.supportedMimeTypes[gc.coreFunctions.getReqestExtension(this.filePath)];
+			
+			if (gc.coreFunctions.isStreamableFileType(gc.coreFunctions.getReqestExtension(this.filePath))) {
+				gc.coreFunctions.log('File '+this.filePath+' is streamable', gc.debug_level_info);
+				this.request.dataPayload = true;
+			}else{
+				gc.coreFunctions.log('File '+this.filePath+' is a standard request', gc.debug_level_info);
+				this.request.responseCode = 200; // OK
+				this.request.responseString = gc.coreFunctions.readFile(this.filePath)
+				this.request.responseContentType = gc.supportedMimeTypes[gc.coreFunctions.getReqestExtension(this.filePath)];
+			}
 		}else{
+
 			gc.coreFunctions.log('File '+this.filePath+' unsupported', gc.debug_level_info);
 			this.request.responseCode = 500; // Not found
 			this.request.responseString = 'Unsupported file type '+gc.coreFunctions.getReqestExtension(this.filePath);
@@ -51,4 +60,29 @@ exports.prepareResponseForRequest = function(req){
 		this.request.responseString = 'File not found';
 		this.request.responseContentType = gc.supportedMimeTypes['.html'];
 	}
+	return this;
+}
+
+// Stream a response back to the client (e.g. an image).
+exports.streamResponse = function(res){
+
+	var mimeType = this.request.requestedMimeType;
+	var filePath = this.filePath;
+
+	fs.stat(this.filePath, function(error, stat) {
+
+    	var rs;
+    	res.writeHead(200, {
+      		'Content-Type' : mimeType,
+      		'Content-Length' : stat.size
+    	});
+
+	    rs = fs.createReadStream(filePath);
+	    // pump the file to the response
+	    util.pump(rs, res, function(err) {
+	      if(err) {
+	        gc.coreFunctions.log('Error ocurred during response streaming: '+err, gc.debug_level_info);
+	      }
+	    });
+  	});
 }

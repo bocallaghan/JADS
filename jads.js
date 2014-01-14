@@ -43,11 +43,16 @@ var server = http.createServer(function(req, res) {
 		// First, prepare the request for responding.
 		request.generateResponse();
 
-		// Now we simply reply with the response.
-		res.setHeader("Content-Type", request.responseContentType);
-    	res.writeHead(request.responseCode);
-    	res.end(request.responseString);
-	}
+		if (request.dataPayload) {
+			gc.coreFunctions.log('Payload Response Required', gc.debug_level_info);
+			request.streamResponse(res);
+		}else{
+			// Now we simply reply with the response.
+			res.setHeader("Content-Type", request.responseContentType);
+    		res.writeHead(request.responseCode);
+    		res.end(request.responseString);
+		}
+	}	
 });
 
 gc.coreFunctions.log('Starting server listening on port ' + gc.server_port, gc.debug_level_info);

@@ -64,7 +64,7 @@ exports.isAliasURL = function(requestURL){
 	var aliasLocation = undefined;
 
 	var splitPath = this.getRequestFolders(requestURL);
-	this.log('Checking for alias using parameter:' +splitPath[1], gc.debug_level_info);
+	this.log('Checking for alias using parameter:' +splitPath[1], gc.debug_level_full);
 
 	if (aliasLocation = gc.server_alias_locations[splitPath[1]]) {
 		return aliasLocation;
@@ -101,7 +101,7 @@ exports.readFile = function(filename){
 	var options = {'encoding':'utf8'};
 
 	// Log out the file we are loading
-	this.log('File to be loaded: '+filename, gc.debug_level_info);
+	this.log('File to be loaded: '+filename, gc.debug_level_full);
 
 	// Return the value from the file read.
 	return fs.readFileSync(filename, options);
@@ -114,6 +114,15 @@ exports.isSupportedFileType = function(extension){
 		return true;
 
 	this.log('Unsupported file type '+extension, gc.debug_level_info);
+	return false;
+}
+
+// Checks the passed in extension and indicates if the file is streamable (i.e. an image).
+exports.isStreamableFileType = function(extension){
+
+	if (gc.streamingFileTypes[extension] != undefined)
+		return true;
+
 	return false;
 }
 // ==============================================================================================
