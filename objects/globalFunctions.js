@@ -45,8 +45,30 @@ exports.getReqestExtension = function(requestURL){
 	return path.extname(requestURL);
 }
 
+
 exports.resolveFileLocation = function(requestURL){
 	return path.join(gc.documents_location, requestURL);
+}
+
+exports.getRequestFolders = function(requestURL){
+	this.log('Splitting request path to:' + requestURL.split('/'), gc.debug_level_full);
+	return requestURL.split('/');
+}
+
+exports.joinPaths = function(p1, p2){
+	return path.join(p1, p2);
+}
+
+exports.isAliasURL = function(requestURL){
+
+	var aliasLocation = undefined;
+
+	var splitPath = this.getRequestFolders(requestURL);
+	this.log('Checking for alias using parameter:' +splitPath[1], gc.debug_level_info);
+
+	if (aliasLocation = gc.server_alias_locations[splitPath[1]]) {
+		return aliasLocation;
+	}
 }
 
 // ==============================================================================================

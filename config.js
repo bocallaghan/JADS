@@ -7,7 +7,7 @@ exports.debug_level_full = 2;
 exports.debug_level_off = 0;
 
 // Location of the SAPUI5 libraries
-exports.sapui5_location = 'C:\\somwehere';
+exports.server_alias_locations = {'sapui5':'C:\\Users\\bocallaghan\\Sapui5'}
 
 // Location of the web server document root (without trailing slash)
 exports.documents_location = 'C:\\Users\\bocallaghan\\Webserver\\Documents';

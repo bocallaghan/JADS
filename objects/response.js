@@ -10,14 +10,24 @@ exports.prepareResponseForRequest = function(req){
 	// Store the request locally.
 	this.request = req;
 
-	// Resolve the file location
-	this.filePath = gc.coreFunctions.resolveFileLocation(req.path);
-	gc.coreFunctions.log('Requested file resolved to ' +this.filePath, gc.debug_level_info);
+	var aliasLocation = undefined;
+
+	// We first need to make sure we are not dealing with an alias (e.g. sapui5)
+	gc.coreFunctions.log('Path Location ' +req.path, gc.debug_level_info);
+	aliasLocation = gc.coreFunctions.isAliasURL(req.path);
+	if (aliasLocation != undefined) {
+		gc.coreFunctions.log('Alias based URL requested', gc.debug_level_info);
+		this.filePath = req.path.replace('/sapui5', aliasLocation);
+	}else{
+		// Resolve the file location
+		this.filePath = gc.coreFunctions.resolveFileLocation(req.path);
+		gc.coreFunctions.log('Requested file resolved to ' +this.filePath, gc.debug_level_info);
+	}
 
 	// First we need to append a filename if one hasn't been provided (e.g if they pass /f1/f2 rather than /f1/f2/index.html)
-		if (gc.coreFunctions.getReqestExtension(this.filePath) == '') {
-			this.filePath = this.filePath + gc.document_default_file;
-		}
+	if (gc.coreFunctions.getReqestExtension(this.filePath) == '') {
+		this.filePath = gc.coreFunctions.joinPaths(this.filePath, gc.document_default_file);
+	}
 
 	// We cannot continue if the path does not exist.
 	if (gc.coreFunctions.pathExists(this.filePath)) {
