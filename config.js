@@ -1,4 +1,12 @@
-exports.debug_mode_enabled = 1;			// 0 = no logging, 1 = high level logging, 2 = full logging
+// ===================================
+// Debug levels & log level constants
+// ===================================
+exports.debug_mode_enabled = 1;			// 0 = no logging, 1 = info level logging, 2 = full logging
+exports.debug_level_info = 1;
+exports.debug_level_full = 2;
+exports.debug_level_off = 0;
+
+exports.sapui5_location = 'C:\\somwehere';
 
 // ===================================
 // JADS Objects
@@ -11,3 +19,6 @@ exports.about_object = './objects/aboutHandler.js';
 // ===================================
 exports.server_port = 8080;			// The port the server should listen on.
 exports.server_ip = '127.0.0.1';	// The IP address the server should listen on.
+
+// Access to core functions such as logging.
+exports.coreFunctions = require('./objects/globalFunctions.js');		// Core Functions such as logging.

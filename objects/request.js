@@ -21,14 +21,10 @@ exports.setRequest = function(req){
 	browserRequest = req;
 
 	// If debug is enabled then we output more data.
-	if (gc.debug_mode_enabled > 0){
-		console.log('Setting up request handler object');
-		if (gc.debug_mode_enabled > 1){
-			console.log('===================== REQUEST INFO ======================');
-			console.log(browserRequest);
-			console.log('===================== =========== ======================');
-		}
-	}
+	gc.coreFunctions.log('Setting up request handler object', gc.debug_level_info);
+	gc.coreFunctions.log('===================== REQUEST INFO ======================', gc.debug_level_full);
+	gc.coreFunctions.log(browserRequest, gc.debug_level_full);
+	gc.coreFunctions.log('===================== =========== ======================', gc.debug_level_full);
 
 	// Prepare the relevant info and store into local variables.
 	this.userAgent = browserRequest.headers["user-agent"];
