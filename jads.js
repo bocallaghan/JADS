@@ -6,8 +6,7 @@ console.log('==============================================================');
 
 var gc = require('./config.js'); 			// Global Variables.
 
-if(gc.debug_mode_enabled > 0)
-	gc.coreFunctions.log('Debug mode is enabled at level ' + gc.debug_mode_enabled + ' - to disable please see config.js', gc.debug_level_info);
+gc.coreFunctions.log('Debug mode is enabled at level ' + gc.debug_mode_enabled + ' - to disable please see config.js', gc.debug_level_info);
 
 var http = require('http'); 				// The standard HTTP node library.
 var fs = require('fs');						// The standard file system library.
@@ -18,8 +17,7 @@ var about = require(gc.about_object);		// Import the ABOUT handler for info abou
 // Standard handler for any request to the server.
 var server = http.createServer(function(req, res) {
 	
-	if (gc.debug_mode_enabled > 0)
-		gc.coreFunctions.log('Request received', gc.debug_level_info);
+	gc.coreFunctions.log('Request received', gc.debug_level_info);
 
 	// Setup the request object up.
 	request.setRequest(req);
@@ -45,8 +43,7 @@ var server = http.createServer(function(req, res) {
 	}
 });
 
-if (gc.debug_mode_enabled > 0)
-	gc.coreFunctions.log('Starting server listening on port ' + gc.server_port, gc.debug_level_info);
+gc.coreFunctions.log('Starting server listening on port ' + gc.server_port, gc.debug_level_info);
 
 // Startup the server and listen on the specified port (usually 8080).
 server.listen(gc.server_port);
