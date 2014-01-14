@@ -1,7 +1,7 @@
 // ===================================
 // Debug levels & log level constants
 // ===================================
-exports.debug_mode_enabled = 1;			// 0 = no logging, 1 = info level logging, 2 = full logging
+exports.debug_mode_enabled = 0;			// 0 = no logging, 1 = info level logging, 2 = full logging
 exports.debug_level_info = 1;
 exports.debug_level_full = 2;
 exports.debug_level_off = 0;
@@ -21,6 +21,7 @@ exports.docs_location = './docs/about.html';
 // ===================================
 exports.request_object = './objects/jads_request.js';
 exports.about_object = './aboutHandler.js';
+exports.error_object = './jads_error.js';
 
 // ===================================
 // Server listening config

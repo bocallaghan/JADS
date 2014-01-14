@@ -5,6 +5,7 @@ var response = require('./jads_response.js')
 
 // Request variables
 var browserRequest = null;
+
 exports.userAgent = null;
 exports.host = null;
 exports.url = null;
@@ -17,30 +18,29 @@ exports.fileType = null;
 exports.setRequest = function(req){
 
 	// Store the request object locally.
-	browserRequest = req;
+	this.browserRequest = req;
 
 	// If debug is enabled then we output more data.
-	gc.coreFunctions.log('Setting up request handler object', gc.debug_level_info);
+	gc.coreFunctions.log('Setting up request handler object', gc.debug_level_full);
 	gc.coreFunctions.log('===================== REQUEST INFO ======================', gc.debug_level_full);
-	gc.coreFunctions.log(browserRequest, gc.debug_level_full);
+	gc.coreFunctions.log(this.browserRequest, gc.debug_level_full);
 	gc.coreFunctions.log('===================== =========== ======================', gc.debug_level_full);
 
 	// Prepare the relevant info and store into local variables.
-	this.userAgent = browserRequest.headers["user-agent"];
-	this.host = browserRequest.headers["host"];
-	this.url = require('url').parse(browserRequest.url, true);
+	this.userAgent = this.browserRequest.headers["user-agent"];
+	this.host = this.browserRequest.headers["host"];
+	this.url = require('url').parse(this.browserRequest.url, true);
 	this.path = this.url.path;
-	this.verb = browserRequest.method; // Get/Put/Post/Update
+	this.verb = this.browserRequest.method; // Get/Put/Post/Update
 	this.fileType = gc.coreFunctions.getReqestExtension(this.path);
 	this.requestedMimeType = gc.supportedMimeTypes[this.fileType];
 }
 
 // Pass on the command to the response object.
-exports.sendResponse = function(res){
+exports.sendResponse = function(httpResponse){
 
-	// setup the response object
-	this.response = response.prepareResponseForRequest(this);
-
-	// send the response to the request
-	this.response.sendResponse(res);
+	// setup the response object (we will get a returned object if it is successful)
+	if(this.response = response.prepareResponseForRequest(this, httpResponse))
+		// send the response to the request
+		this.response.sendResponse(httpResponse);
 }
