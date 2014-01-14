@@ -7,7 +7,7 @@ exports.debug_level_full = 2;
 exports.debug_level_off = 0;
 
 // Location of the SAPUI5 libraries
-exports.server_alias_locations = {'sapui5':'C:\\Users\\bocallaghan\\Sapui5'}
+exports.server_alias_locations = {'sapui5':'C:\\Users\\bocallaghan\\Sapui5', 'about':'./docs/about.html'}
 
 // Location of the web server document root (without trailing slash)
 exports.documents_location = 'C:\\Users\\bocallaghan\\Webserver\\Documents';
@@ -19,8 +19,8 @@ exports.docs_location = './docs/about.html';
 // ===================================
 // JADS Objects
 // ===================================
-exports.request_object = './objects/request.js';
-exports.about_object = './objects/aboutHandler.js';
+exports.request_object = './objects/jads_request.js';
+exports.about_object = './aboutHandler.js';
 
 // ===================================
 // Server listening config

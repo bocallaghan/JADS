@@ -1,7 +1,7 @@
 
 var gc = require('../config.js'); 			// Global Variables.
 
-var response = require('./response.js')
+var response = require('./jads_response.js')
 
 // Request variables
 var browserRequest = null;
@@ -11,13 +11,6 @@ exports.url = null;
 exports.path = null;
 exports.verb = null;
 exports.fileType = null;
-exports.requestedMimeType = null;
-exports.dataPayload = false; // indicates if there is a data payload like an image.
-
-// Response Variables
-exports.responseString = null;
-exports.responseCode = 500;
-exports.responseContentType = null;
 
 // Setup for this request object.
 // Takes a request standard object and extracts relevant information.
@@ -42,20 +35,12 @@ exports.setRequest = function(req){
 	this.requestedMimeType = gc.supportedMimeTypes[this.fileType];
 }
 
-// Checks if the request is for the standard ABOUT page for the server runtime.
-exports.isAboutServerRequest = function(){
-	return (this.path == '/about' || this.path == '/about/');
-}
-
-// Generate a response that can be returned to the client.
-exports.generateResponse = function(){
+// Pass on the command to the response object.
+exports.sendResponse = function(res){
 
 	// setup the response object
 	this.response = response.prepareResponseForRequest(this);
-}
 
-// Pass on the stream command to the response object.
-exports.streamResponse = function(res){
-	// setup the response object
-	this.response.streamResponse(res);
+	// send the response to the request
+	this.response.sendResponse(res);
 }

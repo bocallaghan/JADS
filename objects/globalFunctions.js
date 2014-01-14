@@ -4,11 +4,14 @@ var fs = require('fs');						// The standard file system library.
 var path = require('path');
 
 exports.startupChecks = function(){
-	console.log('==============================================================');
-	console.log(' Welcome to JADS (Just another development (web) server)      ');
-	console.log(' Build Date: 14/01/13 - build number: 1                       ');
-	console.log(' Author: Brenton O\'Callaghan (callaghan001@gmail.com)        ');
-	console.log('==============================================================');
+	this.log('==============================================================',gc.debug_level_off);
+	this.log(' Welcome to JADS (Just another development (web) server)      ',gc.debug_level_off);
+	this.log(' Build Date: 14/01/13 - build number: 1                       ',gc.debug_level_off);
+	this.log(' Author: Brenton O\'Callaghan (callaghan001@gmail.com)        ',gc.debug_level_off);
+	this.log('==============================================================',gc.debug_level_off);
+
+	if (gc.debug_mode_enabled > gc.debug_level_off)
+		this.log('Debug mode is enabled at level ' + gc.debug_mode_enabled + ' - to disable please see config.js', gc.debug_level_info);
 
 	// First we check to make sure that the document root is a valid folder.
 	if(!this.pathExists(gc.documents_location)){
@@ -41,8 +44,8 @@ exports.log = function(message, logLevel){
 // PATH FUNCTIONS
 //
 // ==============================================================================================
-exports.formatPath = function(path){
-	return path.normalize(path);
+exports.formatPath = function(ipath){
+	return path.normalize(ipath);
 }
 
 // Determine the correct extension from a path
@@ -52,7 +55,8 @@ exports.getReqestExtension = function(requestURL){
 
 
 exports.resolveFileLocation = function(requestURL){
-	return path.join(gc.documents_location, requestURL);
+	var newURL = path.join(gc.documents_location, requestURL);
+	return this.formatPath(newURL);
 }
 
 exports.getRequestFolders = function(requestURL){
@@ -66,14 +70,22 @@ exports.joinPaths = function(p1, p2){
 
 exports.isAliasURL = function(requestURL){
 
+	if (aliasLocation = gc.server_alias_locations[this.aliasName(requestURL)]) {
+		return aliasLocation;
+	}
+}
+
+exports.aliasName = function(requestURL){
+
 	var aliasLocation = undefined;
 
 	var splitPath = this.getRequestFolders(requestURL);
-	this.log('Checking for alias using parameter:' +splitPath[1], gc.debug_level_full);
+	return splitPath[1].toLowerCase();
+}
 
-	if (aliasLocation = gc.server_alias_locations[splitPath[1]]) {
-		return aliasLocation;
-	}
+// Checks if the current request is for the JADS about page.
+exports.isAboutServerRequest = function(aliasName){
+	return (aliasName.toLowerCase() == 'about');
 }
 
 // ==============================================================================================
