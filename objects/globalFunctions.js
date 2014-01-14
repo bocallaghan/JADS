@@ -107,23 +107,6 @@ exports.pathExists = function(path){
 	return fs.existsSync(path);
 }
 
-// Function to read the contents of a file into a string.
-exports.readFile = function(filename){
-	
-	// Do a quick check to make sure we have a filename
-	if (!filename || filename == null || filename == undefined)
-		return '';
-
-	// Options when reading a file.
-	var options = {'encoding':'utf8'};
-
-	// Log out the file we are loading
-	this.log('File to be loaded: '+filename, gc.debug_level_full);
-
-	// Return the value from the file read.
-	return fs.readFileSync(filename, options);
-}
-
 // Checks the global configuration to see if the extension is supported.
 exports.isSupportedFileType = function(extension){
 

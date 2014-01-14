@@ -33,8 +33,10 @@ exports.server_ip = '127.0.0.1';	// The IP address the server should listen on.
 // Supported file extensions
 // ===================================
 exports.supportedMimeTypes = {'.html':'text/html', 
+							  '.properties':'text/plain',
 							  '.js':'application/javascript', 
 							  '.css':'text/css',
+							  '.json':'application/json',
 							  '.png':'image/png',
 							  '.gif':'image/gif',
 							  '.jpg':'image/jpg',
