@@ -11,6 +11,10 @@ exports.sapui5_location = 'C:\\somwehere';
 
 // Location of the web server document root (without trailing slash)
 exports.documents_location = 'C:\\Users\\bocallaghan\\Webserver\\Documents';
+exports.document_default_file = 'index.html';
+
+// Location of the JADS documentation
+exports.docs_location = './docs/about.html';
 
 // ===================================
 // JADS Objects
@@ -23,6 +27,11 @@ exports.about_object = './objects/aboutHandler.js';
 // ===================================
 exports.server_port = 8080;			// The port the server should listen on.
 exports.server_ip = '127.0.0.1';	// The IP address the server should listen on.
+
+// ===================================
+// Supported file extensions
+// ===================================
+exports.supportedMimeTypes = {'.html':'text/html', '.js':'application/javascript'}
 
 // Access to core functions such as logging.
 exports.coreFunctions = require('./objects/globalFunctions.js');		// Core Functions such as logging.

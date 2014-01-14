@@ -30,8 +30,12 @@ var server = http.createServer(function(req, res) {
 		// Note the request response code.
 		res.writeHead(200);
 
+
 		// Finally set the ABOUT content describing the server.
 		res.end(about.aboutContent());
+
+		// Set the mime type
+		res.setHeader("Content-Type", "text/html");
 
 	// Otherwise we return the reequested page.
 	}else{
@@ -40,6 +44,7 @@ var server = http.createServer(function(req, res) {
 		request.generateResponse();
 
 		// Now we simply reply with the response.
+		res.setHeader("Content-Type", request.responseContentType);
     	res.writeHead(request.responseCode);
     	res.end(request.responseString);
 	}

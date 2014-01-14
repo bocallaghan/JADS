@@ -1,6 +1,8 @@
 
 var gc = require('../config.js'); 			// Global Variables.
 
+var response = require('./response.js')
+
 // Request variables
 var browserRequest = null;
 exports.userAgent = null;
@@ -12,6 +14,7 @@ exports.verb = null;
 // Response Variables
 exports.responseString = null;
 exports.responseCode = 500;
+exports.responseMime = null;
 
 // Setup for this request object.
 // Takes a request standard object and extracts relevant information.
@@ -41,6 +44,7 @@ exports.isAboutServerRequest = function(){
 
 // Generate a response that can be returned to the client.
 exports.generateResponse = function(){
-	this.responseCode = 200;
-	this.responseString = 'OK';
+
+	// setup the response object
+	response.prepareResponseForRequest(this);
 }
