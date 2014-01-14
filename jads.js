@@ -8,11 +8,13 @@ var gc = require('./config.js'); 			// Global Variables.
 
 gc.coreFunctions.log('Debug mode is enabled at level ' + gc.debug_mode_enabled + ' - to disable please see config.js', gc.debug_level_info);
 
+// First perform the standard startup checks (is the config correct etc.)
+gc.coreFunctions.startupChecks();
+
 var http = require('http'); 				// The standard HTTP node library.
-var fs = require('fs');						// The standard file system library.
 
 var request = require(gc.request_object);	// JADS object representing a request object.
-var about = require(gc.about_object);		// Import the ABOUT handler for info about BALD.
+var about = require(gc.about_object);		// Import the ABOUT handler for info about JADS.
 
 // Standard handler for any request to the server.
 var server = http.createServer(function(req, res) {
