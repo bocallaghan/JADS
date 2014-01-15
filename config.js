@@ -1,7 +1,7 @@
 // ===================================
 // Debug levels & log level constants
 // ===================================
-exports.debug_mode_enabled = 0;			// 0 = no logging, 1 = info level logging, 2 = full logging
+exports.debug_mode_enabled = 1;			// 0 = no logging, 1 = info level logging, 2 = full logging
 exports.debug_level_info = 1;
 exports.debug_level_full = 2;
 exports.debug_level_off = 0;

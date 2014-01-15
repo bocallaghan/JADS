@@ -6,7 +6,7 @@ var err = require(gc.error_object);
 // Called to process a proxy request
 exports.processProxyRequest = function(jadsRequestObject, httpResponseObject){
 
-	gc.coreFunctions.log('Proxy request initiated', gc.debug_level_info);
+	gc.coreFunctions.log('Proxy request initiated', gc.debug_level_full);
 
 	var newpath = jadsRequestObject.path.replace('/proxy', '');
 
@@ -31,8 +31,9 @@ exports.processProxyRequest = function(jadsRequestObject, httpResponseObject){
 	  });
 
 	req.on('error', function(e) {
+		gc.coreFunctions.log('Proxy request failed: '+e, gc.debug_level_info);
 	  err.newError(500, 
-				e, 
+				'Proxy request to server failed with response: '+e.message, 
 				jadsRequestObject, 
 				httpResponseObject,
 				'jad_proxy.js','processProxyRequest');
