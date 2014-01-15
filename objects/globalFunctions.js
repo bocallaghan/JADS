@@ -50,7 +50,7 @@ exports.formatPath = function(ipath){
 
 // Determine the correct extension from a path
 exports.getReqestExtension = function(requestURL){
-	return path.extname(requestURL);
+	return path.extname(requestURL).toLowerCase();
 }
 
 
