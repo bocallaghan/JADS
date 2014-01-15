@@ -21,11 +21,11 @@ exports.returnDirectoryContentsForPath = function (fileSystemPath, httpResponse,
                 
                 if (!fileStats.isFile()) {
                     fileType = 'Dir';
-                    responseStringDirs = responseStringDirs + '<tr><td>' + fileType + '</td><td><a href="' + gc.coreFunctions.joinPaths(requestURL, files[i]) + '">' + files[i] + '</td></tr></li>';
+                    responseStringDirs = responseStringDirs + '<tr><td>' + fileType + '</td><td><a href="' + gc.coreFunctions.joinPaths(requestURL, files[i]) + '">' + files[i] + '</a></td></tr>';
 
                 } else {
                     fileType = 'File';
-                    responseStringFiles = responseStringFiles + '<tr><td>' + fileType + '</td><td><a href="' + gc.coreFunctions.joinPaths(requestURL, files[i]) + '">' + files[i] + '</td></tr></li>';
+                    responseStringFiles = responseStringFiles + '<tr><td>' + fileType + '</td><td><a href="' + gc.coreFunctions.joinPaths(requestURL, files[i]) + '">' + files[i] + '</a></td></tr>';
 
                 }
 
