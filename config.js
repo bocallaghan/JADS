@@ -27,7 +27,8 @@ exports.server_port = 8080;
 // SAP Odata Proxy configuration
 // This will change slightly in the future to pass the auth requests to the original client
 // For now the username and password is hardcoded.
-exports.proxy_sap_host = 'saphana1';		// The server you want to proxy your Odata calls to.
+// This will change later.
+exports.proxy_sap_host = 'mySAPServer';		// The server you want to proxy your Odata calls to.
 exports.proxy_sap_post = 8005;				// The port on that server that should be hit
 exports.proxy_sap_username = 'POC_USER';	// The username to log onto the odata server
 exports.proxy_sap_password = 'Password2';	// The passsword to log onto the odata server
