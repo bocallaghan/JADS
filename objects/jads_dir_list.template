@@ -2,10 +2,17 @@
 <html>
     <head>
         <title>{dirName}</title>
+        <style>
+            
+            td{
+                padding-right:10px;
+            }
+        </style>
     </head>
     <body>
         <h2>Listing of Directory {dirName}</h2>
         <hr/>
         {dirContents}
+        <hr/>
     </body>
 </html>
