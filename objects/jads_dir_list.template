@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{dirName}</title>
+    </head>
+    <body>
+        <h2>Listing of Directory {dirName}</h2>
+        <hr/>
+        {dirContents}
+    </body>
+</html>
