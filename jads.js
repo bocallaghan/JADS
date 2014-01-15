@@ -1,26 +1,26 @@
-var gc = require('./config.js'); 			// Global Variables.
-var err = require('./objects/'+gc.error_object);
+var gc = require('./config.js');                    // Global Variables.
+var err = require('./objects/' + gc.error_object);  // JADS Object definition.
 
 // First perform the standard startup checks (is the config correct etc.)
 gc.coreFunctions.startupChecks();
 
-var http = require('http'); 				// The standard HTTP node library.
+var http = require('http'); // The standard HTTP node library.
 
 var jadsRequest = require(gc.request_object);	// JADS object representing a request object.
 
 // Standard handler for any request to the server.
-var server = http.createServer(function(req, res) {
+var server = http.createServer(function (req, res) {
 	
 	gc.coreFunctions.log('Request received', gc.debug_level_full);
 
-	try{
+	try {
 		// Setup the request object up.
 		jadsRequest.setRequest(req);
 
 		// Prepare & send the response back to the requester.
 		jadsRequest.sendResponse(res);
-	}catch(error){
-		err.newError(500, 'Processing of this request terminated abnormally: '+error, req, res, 'jads.js', 'main');
+	} catch (error) {
+		err.newError(500, 'Processing of this request terminated abnormally: ' + error, req, res, 'jads.js', 'main');
 	}
 	
 });

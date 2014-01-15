@@ -4,13 +4,13 @@
 
 // Change this variable to switch the log level 
 // 0 = no logging, 1 = info level logging, 2 = full logging
-exports.debug_mode_enabled = 0;			
+exports.debug_mode_enabled = 0;
 
 // Location of the SAPUI5 libraries (if required)
 exports.server_alias_locations = {
-									'sapui5'	:   'C:\\Users\\bocallaghan\\Sapui5', 
-								  	'about'		:  	'./docs/about.html'
-								}
+    'sapui5' : 'C:\\Users\\bocallaghan\\Sapui5',
+    'about' : './docs/about.html'
+};
 
 // Location of the web server document root (without trailing slash)
 // E.g. for Windows use a path like: 'C:\\Users\\bocallaghan\\Webserver\\Documents'
@@ -19,10 +19,10 @@ exports.documents_location = 'C:\\Users\\bocallaghan\\Webserver\\Documents';
 
 // The assumed file extension if one is not provided
 // Normal web servers would have index.html, index.htm or Default.html
-exports.document_default_file = 'index.html';	
+exports.document_default_file = 'index.html';
 
 // The port the server should listen on.
-exports.server_port = 8080;			
+exports.server_port = 8080;
 
 // SAP Odata Proxy configuration
 // This will change slightly in the future to pass the auth requests to the original client
@@ -51,23 +51,27 @@ exports.about_object = './aboutHandler.js';
 exports.error_object = './jads_error.js';
 
 // The MIME types supported by JADS (All others are ignored)
-exports.supportedMimeTypes = {'.html':'text/html', 
-							  '.properties':'text/plain',
-							  '.js':'application/javascript', 
-							  '.css':'text/css',
-							  '.json':'application/json',
-							  '.xml' : 'application/xml',
-							  '.md': 'text/plain',
-							  '.png':'image/png',
-							  '.gif':'image/gif',
-							  '.jpg':'image/jpg',
-							  '.jpeg':'image/jpeg'}
+exports.supportedMimeTypes = {
+    '.html' : 'text/html',
+    '.properties' : 'text/plain',
+    '.js' : 'application/javascript',
+    '.css' : 'text/css',
+    '.json' : 'application/json',
+    '.xml' : 'application/xml',
+    '.md' : 'text/plain',
+    '.png' : 'image/png',
+    '.gif' : 'image/gif',
+    '.jpg' : 'image/jpg',
+    '.jpeg' : 'image/jpeg'
+};
 
 // Large file types - this needs to be improved in the future.
-exports.streamingFileTypes = {'.png':'image/png',
-							  '.gif':'image/gif',
-							  '.jpg':'image/jpg',
-							  '.jpeg':'image/jpeg'}
+exports.streamingFileTypes = {
+    '.png' : 'image/png',
+    '.gif' : 'image/gif',
+    '.jpg' : 'image/jpg',
+    '.jpeg' : 'image/jpeg'
+};
 
 // Access to core functions such as logging.
 exports.coreFunctions = require('./objects/globalFunctions.js');		// Core Functions such as logging.

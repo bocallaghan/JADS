@@ -1,9 +1,7 @@
 
-var gc = require('../config.js'); 			// Global Variables.
-
-var response = require('./jads_response.js');
-
-var proxy = require('./jads_proxy.js');
+var gc = require('../config.js');               // Global Variables.
+var response = require('./jads_response.js');   // JADS Response Object
+var proxy = require('./jads_proxy.js');         // JADS Proxy Object
 
 // Request variables
 var browserRequest = null;
@@ -19,7 +17,7 @@ exports.isProxyRequest = false;
 
 // Setup for this request object.
 // Takes a request standard object and extracts relevant information.
-exports.setRequest = function(req){
+exports.setRequest = function (req) {
 
 	// Store the request object locally.
 	this.browserRequest = req;
@@ -32,7 +30,7 @@ exports.setRequest = function(req){
 
 	// Prepare the relevant info and store into local variables.
 	this.userAgent = this.browserRequest.headers["user-agent"];
-	this.host = this.browserRequest.headers["host"];
+	this.host = this.browserRequest.headers.host;
 	this.url = require('url').parse(this.browserRequest.url, true);
 	this.path = this.url.path;
 	this.verb = this.browserRequest.method; // Get/Put/Post/Update
@@ -41,20 +39,20 @@ exports.setRequest = function(req){
 
 	if (gc.coreFunctions.isProxyURL(this.path)) {
 		this.isProxyRequest = true;
-	}else{
+	} else {
 		this.isProxyRequest = false;
 	}
-}
+};
 
 // Pass on the command to the response object.
-exports.sendResponse = function(httpResponse){
+exports.sendResponse = function (httpResponse) {
 
 	if (this.isProxyRequest) {
 		proxy.processProxyRequest(this, httpResponse);
-	}
-	// setup the response object (we will get a returned object if it is successful)
-	else if(this.response = response.prepareResponseForRequest(this, httpResponse)){
+        
+    // setup the response object (we will get a returned object if it is successful)
+	} else if (this.response = response.prepareResponseForRequest(this, httpResponse)) {
 		// send the response to the request
 		this.response.sendResponse(httpResponse);
 	}
-}
+};

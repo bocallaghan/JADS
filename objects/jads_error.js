@@ -1,5 +1,5 @@
 
-var gc = require('../config.js'); 			// Global Variables.
+var gc = require('../config.js');   // Global Variables.
 
 exports.errorCode = 500; // Initialise to 500 for internal error.
 exports.errorMessage = 'An internal server error has ocurred. Please check the JADS log.';
@@ -7,7 +7,7 @@ exports.errorMessage = 'An internal server error has ocurred. Please check the J
 exports.sourceFile = undefined; // The source file in which the error occurred.
 exports.sourceFuction = undefined; // The function in which the error occurred.
 
-exports.postErrorForResponse = function(res){
+exports.postErrorForResponse = function (res) {
 
 	res.setHeader("Content-Type", "text/html");
 
@@ -16,9 +16,9 @@ exports.postErrorForResponse = function(res){
 
     // Write the error message
     res.end(this.errorMessage);
-}
+};
 
-exports.newError = function (errorCode, errorMessage, req, res, sourceFile, sourceFunction){
+exports.newError = function (errorCode, errorMessage, req, res, sourceFile, sourceFunction) {
 
 	gc.coreFunctions.log(errorMessage, gc.debug_level_info);
 
@@ -31,5 +31,5 @@ exports.newError = function (errorCode, errorMessage, req, res, sourceFile, sour
 	// TODO - log each error out to a log file.
 
 	this.postErrorForResponse(res);
-}
+};
 
