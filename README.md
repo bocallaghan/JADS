@@ -1,9 +1,7 @@
-====
-JADS - Just Another Developer Server - Node.js based web server
-Version: 1
-Release Date: 15th Jan 2014
-Author: Brenton O'Callaghan (@callaghan001)
-====
+JADS: Just Another Developer Server - Node.js based web server
+
+Release Date - 15th Jan 2014
+Author - Brenton O'Callaghan (@callaghan001)
 
 Contents
 =============
