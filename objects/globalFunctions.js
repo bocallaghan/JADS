@@ -7,7 +7,7 @@ exports.startupChecks = function(){
 	this.log('==============================================================',gc.debug_level_off);
 	this.log(' Welcome to JADS (Just another development (web) server)      ',gc.debug_level_off);
 	this.log(' Build Date: 14/01/13 - build number: 1                       ',gc.debug_level_off);
-	this.log(' Author: Brenton O\'Callaghan (callaghan001@gmail.com)        ',gc.debug_level_off);
+	this.log(' Author: Brenton O\'Callaghan (@callaghan001)			        ',gc.debug_level_off);
 	this.log('==============================================================',gc.debug_level_off);
 
 	if (gc.debug_mode_enabled > gc.debug_level_off)
