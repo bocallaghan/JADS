@@ -11,11 +11,11 @@ var jadsRequest = require(gc.request_object);	// JADS object representing a requ
 // Standard handler for any request to the server.
 var server = http.createServer(function(req, res) {
 	
-	gc.coreFunctions.log('Request received', gc.debug_level_info);
+	gc.coreFunctions.log('Request received', gc.debug_level_full);
 
 	try{
 		// Setup the request object up.
-		jadsRequest.setRequest(req, res);
+		jadsRequest.setRequest(req);
 
 		// Prepare & send the response back to the requester.
 		jadsRequest.sendResponse(res);
