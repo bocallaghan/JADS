@@ -41,6 +41,8 @@ exports.setRequest = function(req){
 
 	if (gc.coreFunctions.isProxyURL(this.path)) {
 		this.isProxyRequest = true;
+	}else{
+		this.isProxyRequest = false;
 	}
 }
 
