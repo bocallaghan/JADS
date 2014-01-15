@@ -89,7 +89,7 @@ exports.prepareResponseForRequest = function (req, httpResponse) {
 	fileSystemPath = this.filePath;
 
 	// Here we need to check to make sure that even though they might be looking to list the directory, they need a trailing /
-	if (gc.coreFunctions.getReqestExtension(this.filePath) === '' && req.path.substr(req.path.length - 1) !== '/') {
+	if (fs.statSync(this.filePath).isDirectory() && req.path.substr(req.path.length - 1) !== '/') {
 
 		gc.coreFunctions.log('Directory listing required - but missing trailing /', gc.debug_level_full);
 
@@ -105,7 +105,7 @@ exports.prepareResponseForRequest = function (req, httpResponse) {
 	    return undefined;
 
 	// Now we need to append a filename if one hasn't been provided (e.g if they pass /f1/f2 rather than /f1/f2/index.html)
-	} else if (gc.coreFunctions.getReqestExtension(this.filePath) === '') {
+	} else if (fs.statSync(this.filePath).isDirectory()) {
 		this.filePath = gc.coreFunctions.joinPaths(this.filePath, gc.document_default_file);
 	}
 
@@ -150,7 +150,7 @@ exports.prepareResponseForRequest = function (req, httpResponse) {
 	} else {
 		// If we get here the file request did not exists, however if we appended the default file name (index.html)
 		// We should do a directory listing instead so we do that if the path exists.
-		if (gc.coreFunctions.getReqestExtension(fileSystemPath) === '' && gc.coreFunctions.pathExists(fileSystemPath)) {
+		if (fs.statSync(fileSystemPath).isDirectory()) {
 			dir.returnDirectoryContentsForPath(fileSystemPath, httpResponse, req.path);
 			return undefined;
 		} else {
