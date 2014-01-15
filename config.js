@@ -4,7 +4,7 @@
 
 // Change this variable to switch the log level 
 // 0 = no logging, 1 = info level logging, 2 = full logging
-exports.debug_mode_enabled = 1;			
+exports.debug_mode_enabled = 0;			
 
 // Location of the SAPUI5 libraries (if required)
 exports.server_alias_locations = {
@@ -28,7 +28,7 @@ exports.server_port = 8080;
 // This will change slightly in the future to pass the auth requests to the original client
 // For now the username and password is hardcoded.
 // This will change later.
-exports.proxy_sap_host = 'mySAPServer';		// The server you want to proxy your Odata calls to.
+exports.proxy_sap_host = 'myHanaServer';	// The server you want to proxy your Odata calls to.
 exports.proxy_sap_post = 8005;				// The port on that server that should be hit
 exports.proxy_sap_username = 'POC_USER';	// The username to log onto the odata server
 exports.proxy_sap_password = 'Password2';	// The passsword to log onto the odata server
@@ -57,6 +57,7 @@ exports.supportedMimeTypes = {'.html':'text/html',
 							  '.css':'text/css',
 							  '.json':'application/json',
 							  '.xml' : 'application/xml',
+							  '.md': 'text/plain',
 							  '.png':'image/png',
 							  '.gif':'image/gif',
 							  '.jpg':'image/jpg',

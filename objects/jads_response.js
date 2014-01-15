@@ -4,6 +4,7 @@ var fs = require('fs');						// The standard file system library.
 var util = require('util');						// The standard file system library.
 var err = require(gc.error_object);
 var stream = require('stream');
+var dir = require('./jads_directory');
 
 var request = null;
 var response = null;
@@ -15,6 +16,38 @@ var dataPayload = false;
 var responseContentType = null;
 
 exports.prepareResponseForRequest = function(req, httpResponse){
+
+	// Clear all variables.
+	delete request, response, validURL, filePath, responseData, responseCode, dataPayload, responseContentType;
+	
+	/*
+	 * The logic for this method can be quite complex. The structure is as follows:	
+	 *
+	 * If we have an alias request (e.g. /SAPUI5/something/else)
+	 *		Construct the file system path to account for the alias
+	 * Else
+	 * 		Construct the file system path based on the configured document directory for the web files.
+	 *
+	 * If there is no file extension on the request and no trailing /
+	 *		Redirect them to the same URL with the /
+	 * Else if there is no file extension
+	 * 		Add the default file extension (.html)
+	 *
+	 * If the file exists they are requesting
+	 * 		If it is a supported file/MIME type
+	 *			If it is a streamable file type (e.g. image)
+	 *				Mark as streamable and prepare to respond
+	 *			else
+	 *				Prepare to respond as normal
+	 *		else
+	 *			respond with a 500 error
+	 * else
+	 *		if the path exists
+	 *			Do a directory listing
+	 *		else
+	 *			respond with a 404
+	 * 
+	 */
 	
 	// Store the request locally.
 	this.request = req;
@@ -55,8 +88,28 @@ exports.prepareResponseForRequest = function(req, httpResponse){
 		gc.coreFunctions.log('Requested file resolved to ' +this.filePath, gc.debug_level_full);
 	}
 
+	var fileSystemPath = this.filePath;
+
+	// Here we need to check to make sure that even though they might be looking to list the directory, they need a trailing /
+	if (gc.coreFunctions.getReqestExtension(this.filePath) == '' && req.path.substr(req.path.length - 1) != '/'){
+
+		gc.coreFunctions.log('Directory listing required - but missing trailing /', gc.debug_level_full);
+
+		// Set the 'moved' header resonse
+		httpResponse.setHeader("Content-Type", "text/html");
+		httpResponse.setHeader("Location", req.path + '/');
+
+		// Write the response code
+		httpResponse.writeHead(301);
+
+	    // Write the error message
+	    httpResponse.end('');
+	    return undefined;
+
+	
+	}
 	// Now we need to append a filename if one hasn't been provided (e.g if they pass /f1/f2 rather than /f1/f2/index.html)
-	if (gc.coreFunctions.getReqestExtension(this.filePath) == '') {
+	else if (gc.coreFunctions.getReqestExtension(this.filePath) == '') {
 		this.filePath = gc.coreFunctions.joinPaths(this.filePath, gc.document_default_file);
 	}
 
@@ -99,12 +152,19 @@ exports.prepareResponseForRequest = function(req, httpResponse){
 		}
 		
 	}else{
-		err.newError(404, 
-				'File '+this.filePath+' not found', 
-				this.request, 
-				httpResponse,
-				'jad_response.js','prepareResponseForRequest');
-		return undefined;
+		// If we get here the file request did not exists, however if we appended the default file name (index.html)
+		// We should do a directory listing instead so we do that if the path exists.
+		if (gc.coreFunctions.getReqestExtension(fileSystemPath) == '' && gc.coreFunctions.pathExists(fileSystemPath)) {
+			dir.returnDirectoryContentsForPath(fileSystemPath, httpResponse, req.path);
+			return undefined;
+		}else{
+			err.newError(404, 
+					'File '+this.filePath+' not found', 
+					this.request, 
+					httpResponse,
+					'jad_response.js','prepareResponseForRequest');
+			return undefined;
+		}
 	}
 	return this;
 }
