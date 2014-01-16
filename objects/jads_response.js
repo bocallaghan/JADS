@@ -139,12 +139,29 @@ exports.prepareResponseForRequest = function (req, httpResponse) {
 			}
 		} else {
 
-			err.newError(500,
-				'Unsupported file type ' + gc.coreFunctions.getReqestExtension(this.filePath),
-				this.request,
-				httpResponse,
-				'jad_response.js', 'prepareResponseForRequest');
-			return undefined;
+			// If the file type is unsupported, that is fine but if it is a file without an extension
+			// which is sometimes the case for the SAPUI5 docs we should return it as text :(
+			if (gc.coreFunctions.getReqestExtension(this.filePath) === '') {
+
+				gc.coreFunctions.log('File ' + this.filePath + ' is a standard request but for a file without an extension', gc.debug_level_full);
+
+				// 200 = OK as a response code.
+				this.responseCode = 200; // OK
+
+				// It is not a data payload (i.e. streamable)
+				this.dataPayload = false;
+
+				// Set the content type (MIME type).
+				this.responseContentType = 'plain/text';
+			} else {
+
+				err.newError(500,
+					'Unsupported file type ' + gc.coreFunctions.getReqestExtension(this.filePath),
+					this.request,
+					httpResponse,
+					'jad_response.js', 'prepareResponseForRequest');
+				return undefined;
+			}
 		}
 		
 	} else {

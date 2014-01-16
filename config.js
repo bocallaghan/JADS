@@ -59,6 +59,8 @@ exports.supportedMimeTypes = {
     '.json' : 'application/json',
     '.xml' : 'application/xml',
     '.md' : 'text/plain',
+    '.library' : 'text/plain',
+    '.theming' : 'text/plain',
     '.png' : 'image/png',
     '.gif' : 'image/gif',
     '.jpg' : 'image/jpg',
