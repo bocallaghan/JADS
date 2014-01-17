@@ -13,7 +13,10 @@
     <body>
         <h2>Listing of Directory {dirName}</h2>
         <hr/>
-        {dirContents}
+        <table class="dirs">
+        {dirs}</table>
+        <table class="files">
+        {files}</table>
         <hr/>
     </body>
 </html>
