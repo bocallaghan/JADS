@@ -4,7 +4,6 @@ var fs    = require('fs');              // Node file system object.
 
 // Formats an entry for the directory listing based on whether its a file or dir.
 var listingForItem = function (requestURL, filename, fileType) {
-    console.log('Listing for an item.');
     // The template of an entry as well as the indicator variable for a file or dir.
     var listingEntry = '<tr><td>{itemType}</td><td><a href="{hrefLink}">{itemName}</a></td></tr>\n';
     
