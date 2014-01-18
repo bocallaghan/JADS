@@ -8,6 +8,16 @@ var http = require('http'); // The standard HTTP node library.
 
 var jadsRequest = require(gc.request_object);	// JADS object representing a request object.
 
+// Handler for uncaught exceptions - the most common of which will be attempting to start on a port already in use :)
+process.on('uncaughtException', function(err) {
+    if(err.errno === 'EADDRINUSE')
+         gc.coreFunctions.log('Unable to start server on port ' + gc.server_port + '. Check if this port is already in use or change your JADS server config.', gc.debug_level_off);
+    else
+          gc.coreFunctions.log(err, gc.debug_level_off);
+    process.exit(1);
+});
+
+
 // Standard handler for any request to the server.
 var server = http.createServer(function (req, res) {
 	
