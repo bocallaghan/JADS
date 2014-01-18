@@ -64,7 +64,8 @@ exports.supportedMimeTypes = {
     '.png' : 'image/png',
     '.gif' : 'image/gif',
     '.jpg' : 'image/jpg',
-    '.jpeg' : 'image/jpeg'
+    '.jpeg' : 'image/jpeg',
+    '.ttf'  : 'application/octet-stream'
 };
 
 // Large file types - this needs to be improved in the future.
@@ -72,7 +73,8 @@ exports.streamingFileTypes = {
     '.png' : 'image/png',
     '.gif' : 'image/gif',
     '.jpg' : 'image/jpg',
-    '.jpeg' : 'image/jpeg'
+    '.jpeg' : 'image/jpeg',
+    '.ttf'  : 'application/octet-stream'
 };
 
 // Access to core functions such as logging.
