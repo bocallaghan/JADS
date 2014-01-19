@@ -61,7 +61,7 @@ exports.prepareResponseForRequest = function (req, httpResponse) {
 	aliasLocation = gc.coreFunctions.isAliasURL(req.path);
 	
 	// If we have an alias we need to adjust the OS path to account for it.
-	if (aliasLocation !== undefined) {
+	if (aliasLocation) {
 		gc.coreFunctions.log('Alias based URL requested', gc.debug_level_full);
 
 		// Retrieve the alias base so we know what we need to replace.
