@@ -66,19 +66,13 @@ exports.prepareResponseForRequest = function (req, httpResponse) {
 
 		// Retrieve the alias base so we know what we need to replace.
 		aliasName = gc.coreFunctions.aliasName(req.path);
-
-		// SERVER SPECIFIC - look for a request for /about/ as this is a internal page
-		if (gc.coreFunctions.isAboutServerRequest(aliasName)) {
-			this.filePath = aliasLocation;
-		} else {
             
-			// Clear up the original path to show without the alias base &
-            // Join the alias location with the rest of the inputted URL.
-			this.filePath = gc.coreFunctions.joinPaths(aliasLocation, req.path.replace('/' + aliasName, ''));
+        // Clear up the original path to show without the alias base &
+        // Join the alias location with the rest of the inputted URL.
+        this.filePath = gc.coreFunctions.joinPaths(aliasLocation, req.path.replace('/' + aliasName, ''));
 
-			// Format the path to work with the OS.
-			this.filePath = gc.coreFunctions.formatPath(this.filePath);
-		}
+        // Format the path to work with the OS.
+        this.filePath = gc.coreFunctions.formatPath(this.filePath);
 		
 	} else {
 		// Otherise just resolve the file location correcty.

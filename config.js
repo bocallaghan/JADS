@@ -8,8 +8,7 @@ exports.debug_mode_enabled = 0;
 
 // Location of the SAPUI5 libraries (if required)
 exports.server_alias_locations = {
-    'sapui5' : 'C:\\Users\\bocallaghan\\Sapui5',
-    'about' : './docs/about.html'
+    'sapui5' : 'C:\\Users\\bocallaghan\\Sapui5'
 };
 
 // Location of the web server document root (without trailing slash)
