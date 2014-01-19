@@ -6,6 +6,7 @@ Author - Brenton O'Callaghan (@callaghan001)
 Contents
 =============
 - Introduction
+- Changelog
 - Version Notes
 - How to use JADS
 - Coming Soon
@@ -17,6 +18,10 @@ JADS is a node.js based web server specifically designed to be:
 	- Designed for SAPUI5 and SAP NetWeaver Gateway development friendly
 	- Easy to debug / extend
 	- Open Source
+    
+Change log
+=============
+- Directory listing now complete (19th Jan 2014)
 
 Version Notes (Version 1)
 =========================
