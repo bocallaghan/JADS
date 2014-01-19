@@ -15,39 +15,12 @@ var responseCode = null;
 var dataPayload = false;
 var responseContentType = null;
 
+// This function prepares the correct response for any request.
+// If the method returns undefined - that means the caller should not proceed
+// as the response object has error'd and already posted that error back to the
+// requester.
+// If it is successful it returns this instance of the JADSResponse object.
 exports.prepareResponseForRequest = function (req, httpResponse) {
-
-	// Clear all variables.
-	//delete request, response, validURL, filePath, responseData, responseCode, dataPayload, responseContentType;
-	
-	/*
-	 * The logic for this method can be quite complex. The structure is as follows:	
-	 *
-	 * If we have an alias request (e.g. /SAPUI5/something/else)
-	 *		Construct the file system path to account for the alias
-	 * Else
-	 *     Construct the file system path based on the configured document directory for the web files.
-	 *
-	 * If there is no file extension on the request and no trailing /
-	 *     Redirect them to the same URL with the /
-	 * Else if there is no file extension
-	 *     Add the default file extension (.html)
-	 *
-	 * If the file exists they are requesting
-	 *     If it is a supported file/MIME type
-	 *			If it is a streamable file type (e.g. image)
-	 *				Mark as streamable and prepare to respond
-	 *			else
-	 *				Prepare to respond as normal
-	 *		else
-	 *			respond with a 500 error
-	 * else
-	 *		if the path exists
-	 *			Do a directory listing
-	 *		else
-	 *			respond with a 404
-	 * 
-	 */
 	
 	// Store the request locally.
 	this.request = req;
@@ -83,19 +56,11 @@ exports.prepareResponseForRequest = function (req, httpResponse) {
 	fileSystemPath = this.filePath;
 
 	// Here we need to check to make sure that even though they might be looking to list the directory, they need a trailing /
+    // This is only performed where the request is pointing to a directory object as opposed to a file.
 	if (gc.coreFunctions.pathExists(this.filePath) && fs.statSync(this.filePath).isDirectory() && req.path.substr(req.path.length - 1) !== '/') {
-
-		gc.coreFunctions.log('Directory listing required - but missing trailing /', gc.debug_level_full);
-
-		// Set the 'moved' header resonse
-		httpResponse.setHeader("Content-Type", "text/html");
-		httpResponse.setHeader("Location", req.path + '/');
-
-		// Write the response code
-		httpResponse.writeHead(301);
-
-	    // Write the error message
-	    httpResponse.end('');
+        
+        // We respond with a permanently moved (301) with the same path and a / at the end.
+		this.respondWithPermanentlyMoved(req, httpResponse, req.path + '/');
 	    return undefined;
 
 	// Now we need to append a filename if one hasn't been provided (e.g if they pass /f1/f2 rather than /f1/f2/index.html)
@@ -175,6 +140,23 @@ exports.prepareResponseForRequest = function (req, httpResponse) {
 	}
 	return this;
 };
+
+// At times we need to respond with a 301 which means the document you are requesting has been permanently
+// moved to a different location.
+// Mostly this is used when the user is requesting a directory and they forget the / at the end of the URL.
+exports.respondWithPermanentlyMoved = function(JadsRequestObject, httpResponse, newLocation) {
+    gc.coreFunctions.log('Directory listing required - but missing trailing /', gc.debug_level_full);
+
+    // Set the 'moved' header resonse
+    httpResponse.setHeader("Content-Type", "text/html");
+    httpResponse.setHeader("Location", newLocation);
+
+    // Write the response code
+    httpResponse.writeHead(301);
+
+    // Write the error message
+    httpResponse.end('');
+}
 
 // Respond to the request provided.
 exports.sendResponse = function (httpRes) {
