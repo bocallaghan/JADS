@@ -4,18 +4,24 @@ var fs = require('fs');             // The standard file system library.
 var path = require('path');         // Standard Node path library
 
 exports.startupChecks = function () {
+    
+    if (!jadsGlobal_configSet) {
+		console.log('The server has not been configured yet - please call "configre" with the right values to setup the server before running.');
+		process.exit();
+	}
+    
 	this.log('==============================================================', gc.debug_level_off);
 	this.log(' Welcome to JADS (Just another development (web) server)      ', gc.debug_level_off);
-	this.log(' Build Date: 14/01/13 - build number: 1                       ', gc.debug_level_off);
+	this.log(' Build Date: 26/01/13 - build number: 2                       ', gc.debug_level_off);
 	this.log(' Author: Brenton O\'Callaghan (@callaghan001)			        ', gc.debug_level_off);
 	this.log('==============================================================', gc.debug_level_off);
-
-	if (gc.debug_mode_enabled > gc.debug_level_off) {
-        this.log('Debug mode is enabled at level ' + gc.debug_mode_enabled + ' - to disable please see config.js', gc.debug_level_info);
+    
+	if (jadsGlobal_debugLevel > gc.debug_level_off) {
+        this.log('Debug mode is enabled at level ' + jadsGlobal_debugLevel + ' - to disable please see config.js', gc.debug_level_info);
     }
 
 	// First we check to make sure that the document root is a valid folder.
-	if (!this.pathExists(gc.documents_location)) {
+	if (!this.pathExists(jadsGlobal_documentsLocation)) {
 		this.log('The supplied webserver document location does not exist - exiting.', gc.debug_level_off);
 		process.exit();
 	}
@@ -34,7 +40,7 @@ exports.log = function (message, logLevel) {
 
 	// If the global log level is equal to or greater than the
 	// supplied log level we output - otherwise we don't.
-	if (gc.debug_mode_enabled >= logLevel) {
+	if (jadsGlobal_debugLevel >= logLevel) {
 		console.log(message);
 	}
 
@@ -56,7 +62,7 @@ exports.getReqestExtension = function (requestURL) {
 
 
 exports.resolveFileLocation = function (requestURL) {
-	var newURL = path.join(gc.documents_location, requestURL);
+	var newURL = path.join(jadsGlobal_documentsLocation, requestURL);
 	return this.formatPath(newURL);
 };
 
@@ -71,7 +77,7 @@ exports.joinPaths = function (p1, p2) {
 
 exports.isAliasURL = function (requestURL) {
 
-    var aliasLocation = gc.server_alias_locations[this.aliasName(requestURL)];
+    var aliasLocation = jadsGlobal_aliasLocations[this.aliasName(requestURL)];
     
 	if (aliasLocation) {
 		return aliasLocation;

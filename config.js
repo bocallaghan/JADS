@@ -2,43 +2,9 @@
 // User-changeable configuration
 // ===================================
 
-// Change this variable to switch the log level 
-// 0 = no logging, 1 = info level logging, 2 = full logging
-exports.debug_mode_enabled = 0;
-
-// Location of the SAPUI5 libraries (if required)
-exports.server_alias_locations = {
-    'sapui5' : 'C:\\Users\\bocallaghan\\Frameworks\\sapui5',
-    'sencha' : 'C:\\Users\\bocallaghan\\Frameworks\\sencha'
-};
-
-// Location of the web server document root (without trailing slash)
-// E.g. for Windows use a path like: 'C:\\Users\\bocallaghan\\Webserver\\Documents'
-// E.g. for MAC/Unix use a path like: '/some/path/to/your/html/files'
-exports.documents_location = 'C:\\Users\\bocallaghan\\Webserver\\Documents';
-
 // The assumed file extension if one is not provided
 // Normal web servers would have index.html, index.htm or Default.html
 exports.document_default_file = 'index.html';
-
-// The port the server should listen on.
-exports.server_port = 8080;
-
-// SAP Odata Proxy configuration
-// This will change slightly in the future to pass the auth requests to the original client
-// For now the username and password is hardcoded.
-// This will change later.
-exports.proxy_sap_host = 'myHanaServer';	// The server you want to proxy your Odata calls to.
-exports.proxy_sap_post = 8005;				// The port on that server that should be hit
-exports.proxy_sap_username = 'POC_USER';	// The username to log onto the odata server
-exports.proxy_sap_password = 'Password2';	// The passsword to log onto the odata server
-
-// Location of the JADS documentation (DO NOT CHANGE)
-exports.docs_location = './docs/about.html';
-
-// ===================================
-// Internal Server config (Experts only)
-// ===================================
 
 // Log levels
 exports.debug_level_info = 1;

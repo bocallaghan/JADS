@@ -7,14 +7,13 @@ var err = require(gc.error_object);     // JADS error object.
 exports.processProxyRequest = function (jadsRequestObject, httpResponseObject) {
 
 	gc.coreFunctions.log('Proxy request initiated', gc.debug_level_full);
-
 	// Prepare the options for the request.
 	var options = {
-        hostname: gc.proxy_sap_host,
-        port: gc.proxy_sap_post,
+        hostname: jadsGlobal_proxyHost,
+        port: jadsGlobal_proxyPort,
         path: jadsRequestObject.path.replace('/proxy', ''),
         method: jadsRequestObject.verb,
-        auth: gc.proxy_sap_username + ':' + gc.proxy_sap_password
+        auth: jadsGlobal_proxyUser + ':' + jadsGlobal_proxyPass
 	};
 
 	var req = http.request(options, function (res) {

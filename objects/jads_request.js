@@ -17,7 +17,7 @@ exports.isProxyRequest = false;
 
 // Setup for this request object.
 // Takes a request standard object and extracts relevant information.
-exports.setRequest = function (req) {
+exports.setRequest = function (req, jadsInstance) {
 
 	// Store the request object locally.
 	this.browserRequest = req;
@@ -25,7 +25,7 @@ exports.setRequest = function (req) {
 	// If debug is enabled then we output more data.
 	gc.coreFunctions.log('Setting up request handler object', gc.debug_level_full);
 	gc.coreFunctions.log('===================== REQUEST INFO ======================', gc.debug_level_full);
-	gc.coreFunctions.log(this.browserRequest, gc.debug_level_full);
+	//gc.coreFunctions.log(this.browserRequest, gc.debug_level_full);
 	gc.coreFunctions.log('===================== =========== ======================', gc.debug_level_full);
 
 	// Prepare the relevant info and store into local variables.
