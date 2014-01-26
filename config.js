@@ -8,7 +8,8 @@ exports.debug_mode_enabled = 0;
 
 // Location of the SAPUI5 libraries (if required)
 exports.server_alias_locations = {
-    'sapui5' : 'C:\\Users\\bocallaghan\\Sapui5'
+    'sapui5' : 'C:\\Users\\bocallaghan\\Frameworks\\sapui5',
+    'sencha' : 'C:\\Users\\bocallaghan\\Frameworks\\sencha'
 };
 
 // Location of the web server document root (without trailing slash)
@@ -55,7 +56,7 @@ exports.supportedMimeTypes = {
     '.properties' : 'text/plain',
     '.js' : 'application/javascript',
     '.css' : 'text/css',
-    '.json' : 'application/json',
+    '.json' : 'application/x-json',
     '.xml' : 'application/xml',
     '.md' : 'text/plain',
     '.library' : 'text/plain',
