@@ -27,7 +27,7 @@ exports.returnDirectoryContentsForPath = function (fileSystemPath, httpResponse,
         var fileString = '', dirString = '', responseBody;
         
         // Read the HTML page template for the directory listing.
-        responseBody = fs.readFileSync('./objects/jads_dir_list.template', {encoding : 'utf-8'});
+        responseBody = '<!DOCTYPE html><html><head><title>{dirName}</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style>td{padding-right:10px;}</style></head><body><h2>Listing of Directory {dirName}</h2><hr/><table class="dirs">{dirs}</table><table class="files">{files}</table><hr/></body></html>';
         
         // Nothing we can do if there is an error.
 		if (error) {

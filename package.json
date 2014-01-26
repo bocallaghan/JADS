@@ -1,0 +1,29 @@
+{
+  "name": "jads",
+  "version": "0.0.2",
+  "description": "A open source web development server designed for SAPUI5 and OData development",
+  "main": "jads.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bocallaghan/JADS.git"
+  },
+  "keywords": [
+    "SAPUI5",
+    "web",
+    "SAP",
+    "OData",
+    "HANA"
+  ],
+  "author": "Brenton OCallaghan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bocallaghan/JADS/issues"
+  },
+  "homepage": "https://github.com/bocallaghan/JADS"
+}
