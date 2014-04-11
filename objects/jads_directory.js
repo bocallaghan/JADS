@@ -4,13 +4,26 @@ var fs    = require('fs');              // Node file system object.
 
 // Formats an entry for the directory listing based on whether its a file or dir.
 var listingForItem = function (requestURL, filename, fileType) {
-    // The template of an entry as well as the indicator variable for a file or dir.
-    var listingEntry = '<tr><td>{itemType}</td><td><a href="{hrefLink}">{itemName}</a></td></tr>\n';
     
-    // Populate the template now using the placeholders as text to be replaced.
-    listingEntry = listingEntry.replace('{itemType}', fileType);
-    listingEntry = listingEntry.replace('{hrefLink}', gc.coreFunctions.joinPaths(requestURL, filename));
-    listingEntry = listingEntry.replace('{itemName}', filename);
+    if (gc.coreFunctions.getReqestExtension(filename) == '.ipa'){
+        // The template of an entry as well as the indicator variable for a file or dir.
+        // This is used for IPA files that need to be installed on iOS devices so .manifest is appended to search for the appropriate manifest.
+        var listingEntry = '<tr><td>{itemType}</td><td><a href="itms-services://?action=download-manifest&url={hrefLink}.plist">{itemName}</a></td></tr>\n';
+
+        // Populate the template now using the placeholders as text to be replaced.
+        listingEntry = listingEntry.replace('{itemType}', "iOS");
+        listingEntry = listingEntry.replace('{hrefLink}', gc.coreFunctions.joinPaths(requestURL, filename));
+        listingEntry = listingEntry.replace('{itemName}', filename);
+    } else {
+        // The template of an entry as well as the indicator variable for a file or dir.
+        var listingEntry = '<tr><td>{itemType}</td><td><a href="{hrefLink}">{itemName}</a></td></tr>\n';
+        // Populate the template now using the placeholders as text to be replaced.
+        listingEntry = listingEntry.replace('{itemType}', fileType);
+        listingEntry = listingEntry.replace('{hrefLink}', gc.coreFunctions.joinPaths(requestURL, filename));
+        listingEntry = listingEntry.replace('{itemName}', filename);
+    }
+    
+    
     
     // Return the entry.
     return listingEntry;
@@ -30,12 +43,12 @@ exports.returnDirectoryContentsForPath = function (fileSystemPath, httpResponse,
         responseBody = '<!DOCTYPE html><html><head><title>{dirName}</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style>td{padding-right:10px;}</style></head><body><h2>Listing of Directory {dirName}</h2><hr/><table class="dirs">{dirs}</table><table class="files">{files}</table><hr/></body></html>';
         
         // Nothing we can do if there is an error.
-		if (error) {
-			err.newError(500, 'Unable to complete request - server dir unreadable ', undefined, httpResponse, 'jad_directory.js', 'returnDirectoryContentsForPath');
-		} else {
+        if (error) {
+            err.newError(500, 'Unable to complete request - server dir unreadable ', undefined, httpResponse, 'jad_directory.js', 'returnDirectoryContentsForPath');
+        } else {
 
             // For each file we retrieve stats about it and then format an output.
-			for (i = files.length - 1; i >= 0; i = i - 1) {
+            for (i = files.length - 1; i >= 0; i = i - 1) {
 
                 // Retrieve the file statistics.
                 fileStats = fs.statSync(fileSystemPath + files[i]);
@@ -46,10 +59,10 @@ exports.returnDirectoryContentsForPath = function (fileSystemPath, httpResponse,
                 } else {
                     fileString = fileString + listingForItem(requestURL, files[i], 'File');
                 }
-			}
+            }
             
             // Set the content type to HTML.
-			httpResponse.setHeader("Content-Type", 'text/html');
+            httpResponse.setHeader("Content-Type", 'text/html');
             
             // Inset the dirs and files into the template.
             responseBody = responseBody.replace('{dirs}', dirString);
@@ -58,10 +71,10 @@ exports.returnDirectoryContentsForPath = function (fileSystemPath, httpResponse,
             // Put the title on the page and fill in the page header (hence the greedy flag).
             responseBody = responseBody.replace(new RegExp('{dirName}', 'g'), requestURL);
 
-			// Write the response code
+            // Write the response code
             httpResponse.writeHead(200);
             httpResponse.end(responseBody);
-		}
+        }
 
-	});
+    });
 };
